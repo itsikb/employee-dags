@@ -1,0 +1,17 @@
+default:
+  owner: 'team'
+  alert:
+    email: 'team@kenshoo.com'
+    slack: ''
+applications:
+  dw_dim_employee:
+    schedule_interval: '0 20 * * *' #every day at 20:00
+datagate:
+  url: 'http://bi-api-dev.kenshoo-lab.com'
+  token: 'BIGDATA_APPS_Token'
+snowflake:
+  database: 'DEV'
+  role: 'biapi_dev_role'
+  schema_postfix: ''
+  schemas: # PUT HERE READONLY TABLES ONLY
+    dwh_prod: 'dwh_prod'

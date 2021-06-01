@@ -1,0 +1,3 @@
+# This file is centrally maintained in microcosm airflow image
+# If you need to make changes please contact the airflow team.
+

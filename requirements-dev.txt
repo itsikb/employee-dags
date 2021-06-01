@@ -1,0 +1,22 @@
+# This file is centrally maintained and will not be included in your distribution.
+# If you need to make changes please contact the airflow team.
+apache-airflow==1.10.14
+docker-compose==1.26
+invoke==1.*
+pytest==5.2.0
+pytest-cov==2.6.1
+mock==2.0.0
+retrying==1.3.3
+behave==1.2.6
+wiremock==2.1.3
+pymssql==2.1.4
+pycryptodome==3.9.7
+cryptography==3.2
+airflow-big-data-operators
+certifi==2020.4.5.1
+more-itertools==8.3.0
+redis==2.10.6
+requests==2.23.0
+wcwidth==0.2.3
+pybind11==2.5.0
+vaultka-invoke-plugin

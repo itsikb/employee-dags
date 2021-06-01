@@ -1,0 +1,69 @@
+---
+version: "2"
+
+volumes:
+  airflow_logs:
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.100.0/24
+
+services:
+  postgres:
+    image: postgres:10.1-alpine
+    restart: unless-stopped
+    labels:
+      io.astronomer.docker: "true"
+      io.astronomer.docker.open: "true"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+
+  scheduler:
+    image: $AIRFLOW_IMAGE:${AIRFLOW_IMAGE_TAG}
+    command: >
+      sh -c "airflow upgradedb && airflow scheduler"
+    restart: unless-stopped
+    user: astro
+    labels:
+      io.astronomer.docker: "true"
+      io.astronomer.docker.open: "true"
+      io.astronomer.docker.component: "airflow-scheduler"
+    depends_on:
+      - postgres
+    env_file:
+      - airflow.env
+      - ../.env
+    volumes:
+      - airflow_logs:/usr/local/airflow/logs
+
+  webserver:
+    image: $AIRFLOW_IMAGE:${AIRFLOW_IMAGE_TAG}
+    command: ["airflow", "webserver"]
+    restart: unless-stopped
+    user: astro
+    labels:
+      io.astronomer.docker: "true"
+      io.astronomer.docker.open: "true"
+      io.astronomer.docker.component: "airflow-webserver"
+    depends_on:
+      - scheduler
+    env_file:
+      - airflow.env
+      - ../.env
+    ports:
+      - "8080:8080"
+    volumes:
+      - airflow_logs:/usr/local/airflow/logs
+
+
+  wiremock:
+   container_name: wiremock
+   ports:
+     - "6443:6443"
+   image: "rodolpheche/wiremock"
+   command: --port 6443

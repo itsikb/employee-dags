@@ -1,0 +1,17 @@
+default:
+  owner: 'team'
+  alert:
+    email: 'team@kenshoo.com'
+    slack: ''
+applications:
+  dw_dim_employee:
+    schedule_interval: '0 20 * * *' #every day at 20:00
+datagate:
+  url: 'https://astronomer.kenshoo.com:443'
+  token: 'TOKEN'
+snowflake:
+  database: 'STG'
+  role: 'biapi_stg_role'
+  schema_postfix: '_stg'
+  schemas: # PUT HERE READONLY TABLES ONLY
+    dwh_prod: 'prod.dwh_prod'
